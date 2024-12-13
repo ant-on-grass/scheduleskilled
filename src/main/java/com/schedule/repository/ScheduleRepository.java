@@ -5,7 +5,7 @@ import com.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface Repository extends JpaRepository<Schedule,Long> {
+public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
 
     // 2차 시도 // 이러면 새로운 저장 데이터가 생성... // save 때문에
     // 2차 시도 // update가 안되어 , 이를 이해결하기위한 시도 중 두번째

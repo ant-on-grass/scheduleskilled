@@ -13,16 +13,23 @@ public class Schedule extends CommonlyColumn {
     private Long id;
 
     @Column(nullable = false)
-    private String userName;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "longtext")
     private String contents;
 
-    public Schedule(String userName, String title, String contents) {
-        this.userName = userName;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    //TODO 유저 클래스의 id와 schedule 컬럼에 user_id 이 만들어져 연관관계를 가진다.
+    private User user;
+
+//
+//    @ManyToOne
+//    @JoinColumn(name = "member_id")
+//    private Member member;
+
+    public Schedule(User user,String title, String contents) {
+        this.user = user;
         this.title = title;
         this.contents = contents;
     }
