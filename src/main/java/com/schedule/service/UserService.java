@@ -22,7 +22,7 @@ public class UserService {
 
     public UserResponseDto createUser(UserRequestDto dto) {
 
-        User user = usereRepository.save(new User(dto.getUserName(), dto.getEmail()));
+        User user = usereRepository.save(new User(dto.getUserName(), dto.getEmail(),dto.getPassword()));
 
         return new UserResponseDto(user.getUserName(), user.getEmail(),user.getFixdate(),user.getFlexdate());
     }
