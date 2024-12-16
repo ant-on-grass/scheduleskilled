@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,9 +25,9 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto, HttpServletRequest request) {
-        //TODO Session 은 컨트롤러 전? 단계에서 받아지므로 Service 까지 가지고 가지 말고, 여기서 만들고 맞으면 주고 아니면 안주는 식으로
-
+    public ResponseEntity<String> login(@Validated @RequestBody LoginRequestDto dto, HttpServletRequest request) {
+        // TODO Session 은 컨트롤러 전? 단계에서 받아지므로 Service 까지 가지고 가지 말고, 여기서 만들고 맞으면 주고 아니면 안주는 식으로
+        // TODO 입력 값을 받는 부분에 @Validated 어노 테이션을 붙인다!
 
         loginService.login(dto); // TODO 불린으로 혹은 그렇게 까진는 안해줘도 될듯
                                  // TODO 위 같에 따라 controller에서 받은 세션을 줄지 말지를 결정

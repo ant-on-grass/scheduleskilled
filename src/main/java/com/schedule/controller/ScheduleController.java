@@ -7,6 +7,7 @@ import com.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> postSchedule(@RequestBody ScheduleRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> postSchedule(@Validated  @RequestBody ScheduleRequestDto dto) {
 
         return new ResponseEntity<>(scheduleService.postSchedule(dto), HttpStatus.CREATED);
     }
@@ -30,7 +31,7 @@ public class ScheduleController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> modifyById(@PathVariable("id") Long id,
-                                                          @RequestBody ScheduleRequestDto dto) {
+                                                          @Validated @RequestBody ScheduleRequestDto dto) {
 
         return new ResponseEntity<>(scheduleService.modifyById(id,dto),HttpStatus.OK);
 
