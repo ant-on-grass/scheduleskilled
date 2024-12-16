@@ -23,20 +23,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> findByIdUser(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> findByIdUser(@PathVariable("id") Long id) {
 
         return new ResponseEntity<>(userService.findByIdUser(id), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponseDto> modifyByIdUser(@PathVariable Long id,
+    public ResponseEntity<UserResponseDto> modifyByIdUser(@PathVariable("id") Long id,
                                                       @RequestBody UserRequestDto dto) {
 
         return new ResponseEntity<>(userService.modifyByIdUser(id,dto), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
 
         return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.NO_CONTENT);
     }
