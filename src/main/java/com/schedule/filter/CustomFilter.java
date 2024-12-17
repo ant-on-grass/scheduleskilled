@@ -35,7 +35,7 @@ public class CustomFilter implements Filter {
 
                     HttpSession checkSession = request.getSession(false);
 
-                    if(checkSession == null || checkSession.getAttribute("email") == null) {
+                    if(checkSession == null || checkSession.getAttribute("sessionID") == null) {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"로그인이 필요합니다");
                     } else {
                         log.info("로그인 확인");
@@ -46,6 +46,6 @@ public class CustomFilter implements Filter {
         //log.info("test3");
         filterChain.doFilter(servletRequest,servletResponse);
     }
-
-    private static final String[] loginNecessaryUrl = {"/schedules"};
+// * 이걸 써서
+    private static final String[] loginNecessaryUrl = {"/schedules","/users/"};
 }

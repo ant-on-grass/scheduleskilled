@@ -25,7 +25,7 @@ public class ScheduleService {
     public ScheduleResponseDto postSchedule(ScheduleRequestDto dto) {
 
         Optional<User> optionalUser = usereRepository.findById(dto.getUser_id());
-        optionalUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"로그인 후 이용가능 합니다." ));
+        // optionalUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"로그인 후 이용가능 합니다." ));
         User user = optionalUser.get();
 
         Schedule schedule = scheduleRepository.save(new Schedule(user,dto.getTitle(), dto.getContents())); // 새로만든다 - 세팅
