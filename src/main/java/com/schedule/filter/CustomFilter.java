@@ -35,7 +35,7 @@ public class CustomFilter implements Filter {
 
                     HttpSession checkSession = request.getSession(false);
 
-                    if(checkSession == null || checkSession.getAttribute("sessionID") == null) {
+                    if(checkSession == null || checkSession.getAttribute("sessionID") == null) { // TODO sessionID 는 안만들고 해도됨
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"로그인이 필요합니다");
                     } else {
                         log.info("로그인 확인");

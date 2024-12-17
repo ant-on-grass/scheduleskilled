@@ -25,20 +25,12 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> postSchedule(@Validated  @RequestBody ScheduleRequestDto dto
-                                                            //HttpServletRequest request) {
-    ) {
-//        HttpSession session = request.getSession(false);
-//
-//        Object attribute = session.getAttribute(request.getRequestedSessionId());
-//
-//        Map<String, String> sessiondata = (Map<String, String>) attribute;
-//
-//        Collection<String> emailValues = sessiondata.values();
-//
-//        log.info("email 확인 : ", emailValues.toString());
+    public ResponseEntity<ScheduleResponseDto> postSchedule(@Validated  @RequestBody ScheduleRequestDto dto,
+                                                            HttpServletRequest request) {
 
-        return new ResponseEntity<>(scheduleService.postSchedule(dto), HttpStatus.CREATED);
+        String email = getEmailBySession(request);
+
+        return new ResponseEntity<>(scheduleService.postSchedule(dto,email), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -62,5 +54,14 @@ public class ScheduleController {
 
     }
 
+    private String getEmailBySession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
 
+        Object attribute = session.getAttribute("sessionID");
+
+        Map<String, String> sessiondata = (Map<String, String>) attribute;
+
+        String email = sessiondata.get("email");
+        return email;
+    }
 }

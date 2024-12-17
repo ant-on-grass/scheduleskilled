@@ -22,9 +22,9 @@ public class ScheduleService {
     private final UserRepository usereRepository;
 
     @Transactional
-    public ScheduleResponseDto postSchedule(ScheduleRequestDto dto) {
+    public ScheduleResponseDto postSchedule(ScheduleRequestDto dto,String email) {
 
-        Optional<User> optionalUser = usereRepository.findById(dto.getUser_id());
+        Optional<User> optionalUser = usereRepository.findByEmail(email);
         // optionalUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"로그인 후 이용가능 합니다." ));
         User user = optionalUser.get();
 

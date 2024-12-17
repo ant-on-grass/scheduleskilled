@@ -43,7 +43,7 @@ public class Comment extends CommonlyColumn{
      *
      * @param comment
      */
-    public static Comment createByRequestDtoAtComment(String comment,User user,Schedule schedule) { // static 필요!
+    public static Comment createComment(String comment,User user,Schedule schedule) { // static 필요!
 
         return new Comment(comment,user,schedule);
     }

@@ -8,8 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ScheduleRequestDto {
 
-    @NotNull
-    private Long user_id; //TODO
+//    @NotNull
+//    private Long user_id; //TODO
 
     @NotNull
     private String title;
