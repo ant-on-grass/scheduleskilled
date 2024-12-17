@@ -11,7 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/{users}")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -36,7 +36,7 @@ public class UserController {
         return new ResponseEntity<>(userService.modifyByIdUser(id,dto), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
 
         return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.NO_CONTENT);

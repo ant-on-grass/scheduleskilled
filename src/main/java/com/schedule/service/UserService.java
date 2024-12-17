@@ -1,5 +1,6 @@
 package com.schedule.service;
 
+import com.schedule.config.PasswordEncoder;
 import com.schedule.dto.UserRequestDto;
 import com.schedule.dto.UserResponseDto;
 import com.schedule.entity.User;
@@ -20,9 +21,15 @@ public class UserService {
     // private final ScheduleRepository scheduleRepository; // 나중에 인증 인가 후에 사용
     private final UserRepository usereRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public UserResponseDto createUser(UserRequestDto dto) {
 
-        User user = usereRepository.save(new User(dto.getUserName(), dto.getEmail(),dto.getPassword()));
+        //비밀번호 암호화
+        String encodePassword = passwordEncoder.encode(dto.getPassword());
+
+        // 생성
+        User user = usereRepository.save(new User(dto.getUserName(), dto.getEmail(),encodePassword));
 
         return new UserResponseDto(user.getUserName(), user.getEmail(),user.getFixdate(),user.getFlexdate());
     }
@@ -39,7 +46,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto modifyByIdUser(Long id, UserRequestDto dto) {
+    public UserResponseDto modifyByIdUser(Long id, UserRequestDto dto) { //TODO 로그인 로직 넣어야함 + 비밀번호도 입력하게 끔해야할 듯
 
         Optional<User> optionalUserById = usereRepository.findById(id);
 
@@ -47,13 +54,19 @@ public class UserService {
 
         User user = optionalUserById.get();
 
+        // 비밀번호 검증
+
+        if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호를 재 입력해주세요");
+        }
+
         user.setUserName(dto.getUserName());
-        user.setEmail(dto.getEmail());
+        //user.setEmail(dto.getEmail()); // 이메일로 로그인이라 이메일은 수정 불가하게
 
         return new UserResponseDto(user.getUserName(), user.getEmail(),user.getFixdate(),user.getFlexdate());
     }
 
-    public Void deleteUser(Long id) {
+    public Void deleteUser(Long id) { //TODO 로그인 로직 넣어야함 // + 비밀번호도 입력하게 끔해야할 듯 < - 이건 안넣어도 될 듯
 
         usereRepository.deleteById(id);
 

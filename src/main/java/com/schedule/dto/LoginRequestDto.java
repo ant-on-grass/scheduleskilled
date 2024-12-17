@@ -22,7 +22,7 @@ public class LoginRequestDto {
     private String email;
 
     @NotNull
-    @Size(min = 2,max=10) // Range 는 수의 범위를 지정 // Size 는 크기의 범위!
+    //@Size(min = 2,max=10) // Range 는 수의 범위를 지정 // Size 는 크기의 범위! // brypt 진행으로 해씽 후 string 값에 크기가 크므로 우선 생략
     private String password;
 
     public LoginRequestDto() {

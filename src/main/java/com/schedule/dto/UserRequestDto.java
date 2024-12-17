@@ -18,7 +18,6 @@ public class UserRequestDto {
     @Pattern(regexp = "\\w+@\\w+.\\w+(.\\w+)?")
     private String email;
 
-    @Size(min = 2,max=10)
     private String password;
 
     public UserRequestDto() {
