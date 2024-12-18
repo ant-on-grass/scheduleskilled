@@ -1,0 +1,39 @@
+-- create table user
+-- (
+--     fixdate   datetime(6)  null,
+--     flexdate  datetime(6)  null,
+--     id        bigint auto_increment
+--         primary key,
+--     email     varchar(255) not null,
+--     password  varchar(255) not null,
+--     user_name varchar(255) not null
+-- );
+--
+-- create table schedule
+-- (
+--     fixdate  datetime(6)  null,
+--     flexdate datetime(6)  null,
+--     id       bigint auto_increment
+--         primary key,
+--     user_id  bigint       null,
+--     contents longtext     null,
+--     title    varchar(255) not null,
+--     constraint FKa50n59y1j4a6qwa42p8jiguds
+--         foreign key (user_id) references user (id)
+-- );
+--
+-- create table comment
+-- (
+--     fixdate     datetime(6) null,
+--     flexdate    datetime(6) null,
+--     id          bigint auto_increment
+--         primary key,
+--     schedule_id bigint      null,
+--     user_id     bigint      null,
+--     comment     longtext    not null,
+--     constraint FK8kcum44fvpupyw6f5baccx25c
+--         foreign key (user_id) references user (id),
+--     constraint FKsy51iks4dgapu66gfj3mnykch
+--         foreign key (schedule_id) references schedule (id)
+-- );
+--
