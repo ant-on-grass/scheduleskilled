@@ -18,7 +18,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    // private final ScheduleRepository scheduleRepository; // 나중에 인증 인가 후에 사용
     private final UserRepository usereRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -46,7 +45,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto modifyByIdUser(Long id, UserRequestDto dto) { //TODO 로그인 로직 넣어야함 + 비밀번호도 입력하게 끔해야할 듯
+    public UserResponseDto modifyByIdUser(Long id, UserRequestDto dto) {
 
         Optional<User> optionalUserById = usereRepository.findById(id);
 
@@ -55,7 +54,7 @@ public class UserService {
         User user = optionalUserById.get();
 
         // 비밀번호 검증
-
+        // 해당 유저임은 이미 알지만, 대부분에 웹페이지에서 사용하듯 유저 정보 변경시 비밀번호 재입력
         if(!passwordEncoder.matches(dto.getPassword(),user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"비밀번호를 재 입력해주세요");
         }
@@ -66,7 +65,7 @@ public class UserService {
         return new UserResponseDto(user.getUserName(), user.getEmail(),user.getFixdate(),user.getFlexdate());
     }
 
-    public Void deleteUser(Long id) { //TODO 로그인 로직 넣어야함 // + 비밀번호도 입력하게 끔해야할 듯 < - 이건 안넣어도 될 듯
+    public Void deleteUser(Long id) { // 비밀번호도 입력하게 끔해야할 듯 < - 이건 안넣어도 될 듯
 
         usereRepository.deleteById(id);
 

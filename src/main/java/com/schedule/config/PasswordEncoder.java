@@ -4,8 +4,8 @@ package com.schedule.config;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
-@Component
-public class PasswordEncoder {
+@Component // bean 생성을 위해!
+public class PasswordEncoder { // 암호화를 위한!
 
     public String encode(String rawPassword) {
 

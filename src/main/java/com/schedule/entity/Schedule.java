@@ -23,7 +23,7 @@ public class Schedule extends CommonlyColumn {
     //TODO 유저 클래스의 id와 schedule 컬럼에 user_id 이 만들어져 연관관계를 가진다.
     private User user;
 
-//
+//  TODO 기본 틀
 //    @ManyToOne
 //    @JoinColumn(name = "member_id")
 //    private Member member;
@@ -45,8 +45,8 @@ public class Schedule extends CommonlyColumn {
     public void setContents(String contents) {
         this.contents = contents;
     }
-    //    private LocalDateTime fixDate;
+
+//    private LocalDateTime fixDate; - 해당 과정은 CommonlyColumn 클래스가 생성되고, 생략이 가능한 필드
 //    private LocalDateTime flexDate;
 }
 
-//작성 유저명, 할일 제목, 할일 내용, 작성일, 수정일

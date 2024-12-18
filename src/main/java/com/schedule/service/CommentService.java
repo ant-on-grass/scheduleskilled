@@ -24,17 +24,19 @@ import static com.schedule.entity.Comment.createComment; // TODO 이런식으로
 @AllArgsConstructor
 public class CommentService {
 
-    private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
+    private final ScheduleRepository scheduleRepository; // DI
+    private final UserRepository userRepository; // DI
+    private final CommentRepository commentRepository; // DI
 
     @Transactional
     public CommentResponseDto createCommet(CommentRequestDto dto, String email , Long scheduleId) {
 
+        // 이메일을 통해 유저 엔터티의 저장데이터에 접근하는 모습
         Optional<User> byEmail = userRepository.findByEmail(email);
 
         log.info("test");
 
+        // 메서드의 설명은 밑에 있다
         User user = byEmail.get();
 
         if(!user.getUserName().equals(dto.getUserName())) {
@@ -45,7 +47,7 @@ public class CommentService {
         findByIdSchedule.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         Schedule schedule = findByIdSchedule.get();
 
-        Comment createComment =  createComment(dto.getComment(),user,schedule); // TODO 신기!
+        Comment createComment =  createComment(dto.getComment(),user,schedule); // TODO 신기! - 유지보수를 위해 필요!!
 
         commentRepository.save(createComment);
 
@@ -94,6 +96,12 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
+    /**
+     * CommentRepository 에서 고유 식별 id를 가지고 comment 저장 객체를 뽑아내는 메서드
+     *
+     * @param commentId
+     * @return comment 저장 객체
+     */
     private Comment selfCommentToCheck(Long commentId) {
         Optional<Comment> optionalFindById = commentRepository.findById(commentId);
 

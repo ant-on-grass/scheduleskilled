@@ -16,6 +16,6 @@ public class CommentRequestDto {
     @NotNull
     private String comment;
 
-    public CommentRequestDto() {
+    public CommentRequestDto() { // TODO 역직렬화를 위해 꼭 필요!
     }
 }

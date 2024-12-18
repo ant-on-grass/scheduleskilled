@@ -23,18 +23,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentService commentService; //DI
 
-    @PostMapping
+    @PostMapping // comment 등록
     public ResponseEntity<CommentResponseDto> createCommet(@PathVariable("scheduleId") Long schedulesId,
                                                            @Validated @RequestBody CommentRequestDto dto,
                                                            HttpServletRequest request) {
-
+        // 해당 매서드의 설명은 밑에
         String email = getEmailBySession(request);
 
         return new ResponseEntity<>(commentService.createCommet(dto,email,schedulesId), HttpStatus.CREATED);
     }
-
+    // comment 조회
     @GetMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> findByIdComment(@PathVariable("commentId") Long commentId) { // @PathVariable("commentId") 지정하자!
 
@@ -42,6 +42,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.findByIdComment(commentId),HttpStatus.OK);
     }
 
+    // comment 수정
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> modifyByIdComment(@PathVariable("commentId") Long commentId, // @PathVariable("commentId") 지정하자!
                                                                 @Validated @RequestBody CommentRequestDto dto,
@@ -52,6 +53,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.modifyByIdComment(dto,commentId,email),HttpStatus.OK);
     }
 
+    // comment 삭제
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> DeleteByIdComment(@PathVariable("commentId") Long commentId,
                                                   HttpServletRequest request) { // @PathVariable("commentId") 지정하자!
@@ -63,14 +65,19 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-
+    /**
+     *  HttpServletRequest를 통해 HttpSession을 받아, email value를 뽑아네는 매서드
+     *
+     * @param request
+     * @return email 값
+     */
     private String getEmailBySession(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         Map<String, String> sessionData = (Map<String, String>)session.getAttribute("sessionID");
 
-        //Map<String, String> emailBySessionData = (Map<String, String>) sessionData;
-        //Collection<String> emailCollection = emailBySessionData.values();
+        //Map<String, String> emailBySessionData = (Map<String, String>) sessionData; // 해당 주석들은 저의 자바 문법의 부족을 느끼게 해주는 부분....
+        //Collection<String> emailCollection = emailBySessionData.values(); //TODO 자바 문법 공부가 필요... collection
 
         //List.of(sessionData.values()).get()
 

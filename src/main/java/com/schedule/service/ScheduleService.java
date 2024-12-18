@@ -25,11 +25,11 @@ public class ScheduleService {
     public ScheduleResponseDto postSchedule(ScheduleRequestDto dto,String email) {
 
         Optional<User> optionalUser = usereRepository.findByEmail(email);
-        // optionalUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"로그인 후 이용가능 합니다." ));
+        // optionalUser.orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"로그인 후 이용가능 합니다." )); - 이미 로그인이 된 상태이므로 생략
         User user = optionalUser.get();
 
         Schedule schedule = scheduleRepository.save(new Schedule(user,dto.getTitle(), dto.getContents())); // 새로만든다 - 세팅
-        //TODO Schedule 생성시에 user의 정보를 담아주지 않으면 schedule 테이블의 user_id 가 널 값을 가지게 된다.
+        //TODO Schedule 생성시에 user의 정보를 담아주지 않으면 schedule 테이블의 user_id 가 널 값을 가지게 된다. - 놓치지 쉬운 부분!!
         // 연관성을 부여하고 대입을 안하면 말짱황 // 1번째 시도 requestDto에 user_id 값을 넣으려했지만, 생성자의 실행문을 어떻게 채워야할지 감이 안잡힘
         // 그래서 user 객체를 넘겨줌
         return new ScheduleResponseDto(

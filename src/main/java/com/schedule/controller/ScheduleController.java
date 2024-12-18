@@ -22,19 +22,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleService scheduleService;
+    private final ScheduleService scheduleService; //DI
 
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> postSchedule(@Validated  @RequestBody ScheduleRequestDto dto,
-                                                            HttpServletRequest request) {
-
+                                                            HttpServletRequest request) { // 로그인한 상태를 생각해 HttpServletRequest - > session을 받아 해당 과정이 되게끔 만듬
+                                                                                            // 밑에 같은 내용은 생략
+        // 해당 코드의 설명은 밑에
         String email = getEmailBySession(request);
 
         return new ResponseEntity<>(scheduleService.postSchedule(dto,email), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<ScheduleResponseDto> findById(@PathVariable("id") Long id) { // TODO @PathVariable("id")에서 id 지칭은 내생각엔 필수! 그리고 url에 쓴 것과 당연하게 같게 작성해야한다!
 
         return new ResponseEntity<>(scheduleService.findById(id),HttpStatus.OK);
     }
@@ -54,6 +55,12 @@ public class ScheduleController {
 
     }
 
+    /**
+     *  HttpServletRequest를 통해 HttpSession을 받아, email value를 뽑아네는 매서드
+     *
+     * @param request
+     * @return email 값
+     */
     private String getEmailBySession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 

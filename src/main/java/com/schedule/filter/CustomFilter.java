@@ -12,7 +12,8 @@ import java.io.IOException;
 
 
 @Slf4j
-public class CustomFilter implements Filter {
+public class CustomFilter implements Filter { // controller 의 전단계에서 발생하는 과정으로 2단계? 가 있다
+    // TODO 공부가 필요한 내용
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse , FilterChain filterChain) throws ServletException, IOException {
@@ -35,7 +36,7 @@ public class CustomFilter implements Filter {
 
                     HttpSession checkSession = request.getSession(false);
 
-                    if(checkSession == null || checkSession.getAttribute("sessionID") == null) { // TODO sessionID 는 안만들고 해도됨
+                    if(checkSession == null || checkSession.getAttribute("sessionID") == null) { // TODO 공부가 필요한 내용
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"로그인이 필요합니다");
                     } else {
                         log.info("로그인 확인");
@@ -47,5 +48,6 @@ public class CustomFilter implements Filter {
         filterChain.doFilter(servletRequest,servletResponse);
     }
 // * 이걸 써서
-    private static final String[] loginNecessaryUrl = {"/schedules","/users/"};
+    private static final String[] loginNecessaryUrl = {"/schedules","/users/"}; // 로그인이 필요한 url을 거르기 위한 필드
+    // 해당 필드는 static을 썻다.. // TODO 알아보아야 한다.
 }
