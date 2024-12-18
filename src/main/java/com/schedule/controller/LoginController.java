@@ -46,7 +46,7 @@ public class LoginController { // 로그인을 위한!
 
         sessionData.put("email", dto.getEmail()); // 세션 데이터( 키 : 벨류 ) // 이때는 중요정보인 비밀번호 등은 입력하면 안된다!
 
-        session.setAttribute("sessionID",sessionData); //TODO 갑자기 헛갈리는 내용.. 공부 후 velog에 작성할 예정이다.
+        session.setAttribute("sessionID",sessionData); //TODO 갑자기 헛갈리는 내용.. 공부 후 velog에 작성할 예정이다. - > 공부 완! 다음번에 제대로 할 예정!
 
         return ResponseEntity.ok("성공!"); // ResponseEntity<>() 의 객체를 생성하는 것보다 이것을 더 선호한다고 함!
     }
