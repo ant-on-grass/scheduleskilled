@@ -44,6 +44,7 @@ public class UserService {
         return new UserResponseDto(user.getUserName(), user.getEmail(),user.getFixdate(),user.getFlexdate());
     }
 
+
     @Transactional
     public UserResponseDto modifyByIdUser(Long id, UserRequestDto dto) {
 
