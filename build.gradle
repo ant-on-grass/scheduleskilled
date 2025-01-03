@@ -34,6 +34,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'at.favre.lib:bcrypt:0.10.2' // bcrypt - 단방향의 암호화 기술
+
+    implementation 'org.springframework.boot:spring-boot-starter-aop' // AOP
 }
 
 tasks.named('test') {

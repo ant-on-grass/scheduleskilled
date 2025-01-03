@@ -6,16 +6,20 @@ import com.schedule.dto.CommentResponseDto;
 import com.schedule.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("schedules/{scheduleId}/comments")
@@ -23,69 +27,78 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final CommentService commentService; //DI
+  private final CommentService commentService; //DI
 
-    @PostMapping // comment 등록
-    public ResponseEntity<CommentResponseDto> createCommet(@PathVariable("scheduleId") Long schedulesId,
-                                                           @Validated @RequestBody CommentRequestDto dto,
-                                                           HttpServletRequest request) {
-        // 해당 매서드의 설명은 밑에
-        String email = getEmailBySession(request);
+  @PostMapping // comment 등록
+  public ResponseEntity<CommentResponseDto> createCommet(
+      @PathVariable("scheduleId") Long schedulesId,
+      @Validated @RequestBody CommentRequestDto dto,
+      HttpServletRequest request) {
+    // 해당 매서드의 설명은 밑에
+    String email = getEmailBySession(request);
 
-        return new ResponseEntity<>(commentService.createCommet(dto,email,schedulesId), HttpStatus.CREATED);
-    }
-    // comment 조회
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDto> findByIdComment(@PathVariable("commentId") Long commentId) { // @PathVariable("commentId") 지정하자!
+    return new ResponseEntity<>(commentService.createCommet(dto, email, schedulesId),
+        HttpStatus.CREATED);
+  }
 
+  // comment 조회
+  @GetMapping("/{commentId}")
+  public ResponseEntity<CommentResponseDto> findByIdComment(
+      @PathVariable("commentId") Long commentId) { // @PathVariable("commentId") 지정하자!
 
-        return new ResponseEntity<>(commentService.findByIdComment(commentId),HttpStatus.OK);
-    }
+    return new ResponseEntity<>(commentService.findByIdComment(commentId), HttpStatus.OK);
+  }
 
-    // comment 수정
-    @PatchMapping("/{commentId}")
-    public ResponseEntity<CommentResponseDto> modifyByIdComment(@PathVariable("commentId") Long commentId, // @PathVariable("commentId") 지정하자!
-                                                                @Validated @RequestBody CommentRequestDto dto,
-                                                                HttpServletRequest request) {
+  // comment 수정
+  @PatchMapping("/{commentId}")
+  public ResponseEntity<CommentResponseDto> modifyByIdComment(
+      @PathVariable("commentId") Long commentId, // @PathVariable("commentId") 지정하자!
+      @Validated @RequestBody CommentRequestDto dto,
+      HttpServletRequest request) {
 
-        String email = getEmailBySession(request);
+    String email = getEmailBySession(request);
 
-        return new ResponseEntity<>(commentService.modifyByIdComment(dto,commentId,email),HttpStatus.OK);
-    }
+    return new ResponseEntity<>(commentService.modifyByIdComment(dto, commentId, email),
+        HttpStatus.OK);
+  }
 
-    // comment 삭제
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> DeleteByIdComment(@PathVariable("commentId") Long commentId,
-                                                  HttpServletRequest request) { // @PathVariable("commentId") 지정하자!
+  // comment 삭제
+  @DeleteMapping("/{commentId}")
+  public ResponseEntity<Void> DeleteByIdComment(@PathVariable("commentId") Long commentId,
+      HttpServletRequest request) { // @PathVariable("commentId") 지정하자!
 
-        String email = getEmailBySession(request);
+    String email = getEmailBySession(request);
 
-        commentService.DeleteByIdComment(commentId,email);
+    log.info("controller_email : {}", email);
 
-        return ResponseEntity.noContent().build();
-    }
+    commentService.DeleteByIdComment(commentId, email);
 
-    /**
-     *  HttpServletRequest를 통해 HttpSession을 받아, email value를 뽑아네는 매서드
-     *
-     * @param request
-     * @return email 값
-     */
-    private String getEmailBySession(HttpServletRequest request) {
+    log.info("controller_commentId : {}", commentId);
 
-        HttpSession session = request.getSession();
-        Map<String, String> sessionData = (Map<String, String>)session.getAttribute("sessionID");
+    return ResponseEntity.noContent().build();
+  }
 
-        //Map<String, String> emailBySessionData = (Map<String, String>) sessionData; // 해당 주석들은 저의 자바 문법의 부족을 느끼게 해주는 부분....
-        //Collection<String> emailCollection = emailBySessionData.values(); //TODO 자바 문법 공부가 필요... collection
+  /**
+   * HttpServletRequest를 통해 HttpSession을 받아, email value를 뽑아네는 매서드
+   *
+   * @param request
+   * @return email 값
+   */
+  private String getEmailBySession(HttpServletRequest request) {
 
-        //List.of(sessionData.values()).get()
+    HttpSession session = request.getSession();
+    Map<String, String> sessionData = (Map<String, String>) session.getAttribute("sessionID");
 
-        String email = sessionData.get("email");
+    //Map<String, String> emailBySessionData = (Map<String, String>) sessionData; // 해당 주석들은 저의 자바 문법의 부족을 느끼게 해주는 부분....
+    //Collection<String> emailCollection = emailBySessionData.values(); //TODO 자바 문법 공부가 필요... collection
 
-        //String email = emailCollection.toString();
+    //List.of(sessionData.values()).get()
 
-        return email;
-    }
+    String email = sessionData.get("email");
+
+    //String email = emailCollection.toString();
+
+    return email;
+  }
 
 }
